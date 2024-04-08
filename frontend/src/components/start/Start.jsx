@@ -19,7 +19,9 @@ function Start() {
 
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
-        const client = mqtt.connect('ws://34.201.59.202:1883', options);
+        console.log('intento conectar el cliente');
+        const client = mqtt.connect('ws://34.201.59.202:1883');
+        console.log(client);
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');

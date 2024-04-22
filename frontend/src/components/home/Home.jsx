@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import mqtt from 'mqtt';
 import { useNavigate } from 'react-router-dom';
-//import {MongoClient} from "mongodb";
 import config from "../../config";
 import './Home.css';
 
@@ -10,14 +9,10 @@ function Home() {
     const [weight, setWeight] = useState(null);
     const [height, setHeight] = useState(null);
     let navigate = useNavigate();
-    //const uri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
 
     useEffect(() => {
         // Conexión al broker MQTT
         const client = mqtt.connect('ws://44.204.54.69:9000');
-
-        // Conexión a MongoD
-        //const clientMongo = new MongoClient(uri);
 
         client.on('connect', () => {
             console.log('Conectado al broker MQTT');
@@ -39,13 +34,6 @@ function Home() {
                     break;
             }
 
-
-            // Guardar datos en MongoDB
-            /*storeData(topic, message).then(r =>
-                console.log('Datos guardados en MongoDB')
-            ).catch(err =>
-                console.error('Error al guardar datos en MongoDB:', err));*/
-
             // Si recibo ambos datos, navego a la siguiente página
             if (weight && height) {
                 // Chequeo en la base de datos weight && height en la aerolínea y vuelo indicado.
@@ -54,22 +42,6 @@ function Home() {
                 navigate('/newPage');
             }
         });
-
-        // Función que permite guardar en la db de mongo
-        /*async function storeData(topic, message) {
-            try {
-                await clientMongo.connect();
-                const database = clientMongo.db('nombre_db');
-                const collection = database.collection('datos');
-
-                // Inserta los datos en MongoDB
-                await collection.insertOne({ topic, message: message.toString(), createdAt: new Date() });
-                console.log(`Datos insertados del topic ${topic}`);
-            } finally {
-                // Asegúrate de cerrar la conexión a MongoDB
-                await clientMongo.close();
-            }
-        }*/
 
         // Clean up the effect
         return () => { client.end(); };

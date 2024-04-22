@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import mqtt from 'mqtt';
 import { useNavigate } from 'react-router-dom';
-import {MongoClient} from "mongodb";
+//import {MongoClient} from "mongodb";
 import config from "../../config";
+import './Home.css';
 
 
 function Home() {
     const [weight, setWeight] = useState(null);
     const [height, setHeight] = useState(null);
     let navigate = useNavigate();
-    const uri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
+    //const uri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
 
     useEffect(() => {
         // Conexión al broker MQTT
         const client = mqtt.connect('ws://44.204.54.69:9000');
 
         // Conexión a MongoD
-        const clientMongo = new MongoClient(uri);
+        //const clientMongo = new MongoClient(uri);
 
         client.on('connect', () => {
             console.log('Conectado al broker MQTT');
@@ -24,8 +25,8 @@ function Home() {
             client.subscribe(['weight', 'height']);
         });
 
-        client.on('message', (topic, message) => {
-            console.log(`Mensaje recibido en topic ${topic}: ${message}`);
+        client.on('connect', (topic, message) => {
+            console.log(`Mensaje recibido en topic ${JSON.stringify(topic)}: ${message}`);
 
             switch (topic) {
                 case 'weight':
@@ -40,10 +41,10 @@ function Home() {
 
 
             // Guardar datos en MongoDB
-            storeData(topic, message).then(r =>
+            /*storeData(topic, message).then(r =>
                 console.log('Datos guardados en MongoDB')
             ).catch(err =>
-                console.error('Error al guardar datos en MongoDB:', err));
+                console.error('Error al guardar datos en MongoDB:', err));*/
 
             // Si recibo ambos datos, navego a la siguiente página
             if (weight && height) {
@@ -55,7 +56,7 @@ function Home() {
         });
 
         // Función que permite guardar en la db de mongo
-        async function storeData(topic, message) {
+        /*async function storeData(topic, message) {
             try {
                 await clientMongo.connect();
                 const database = clientMongo.db('nombre_db');
@@ -68,7 +69,7 @@ function Home() {
                 // Asegúrate de cerrar la conexión a MongoDB
                 await clientMongo.close();
             }
-        }
+        }*/
 
         // Clean up the effect
         return () => { client.end(); };

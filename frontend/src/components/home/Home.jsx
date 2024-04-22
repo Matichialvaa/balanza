@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import mqtt from 'mqtt';
 import { useNavigate } from 'react-router-dom';
 import config from "../../config";
+import './Home.css';
 
 
 function Home() {
@@ -19,8 +20,8 @@ function Home() {
             client.subscribe(['weight', 'height']);
         });
 
-        client.on('message', (topic, message) => {
-            console.log(`Mensaje recibido en topic ${topic}: ${message}`);
+        client.on('connect', (topic, message) => {
+            console.log(`Mensaje recibido en topic ${JSON.stringify(topic)}: ${message}`);
 
             switch (topic) {
                 case 'weight':
@@ -32,7 +33,6 @@ function Home() {
                 default:
                     break;
             }
-
 
             // Si recibo ambos datos, navego a la siguiente página
             if (weight && height) {

@@ -2,7 +2,6 @@ import React from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
-import config from "../../config";
 
 function Start() {
     let navigate = useNavigate();

@@ -2,6 +2,7 @@ import React from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
+import config from "../../config";
 
 function Start() {
     let navigate = useNavigate();
@@ -20,14 +21,14 @@ function Start() {
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('mqtt://54.89.183.221:1883', options);
+        const client = mqtt.connect('ws://44.204.54.69:9000');
         console.log(client);
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
 
             // Publish a message to a topic
-            client.publish('start/button', 'Button clicked', {}, (error) => {
+            client.publish('start', 'clicked', {}, (error) => {
                 if (error) {
                     console.error('Publish error:', error);
                 }
@@ -39,7 +40,12 @@ function Start() {
             // Optionally, end the connection when done
             client.end();
         });
+
+        client.on('error', (error) => {
+            console.error('Connection error:', error);
+        });
     };
+
 
     return (
         <div className="start">

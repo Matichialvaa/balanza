@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import mqtt from 'mqtt';
 import { useNavigate } from 'react-router-dom';
-import {MongoClient} from "mongodb";
+// import {MongoClient} from "mongodb";
 import config from "../../config";
 
 
@@ -16,7 +16,7 @@ function Home() {
         const client = mqtt.connect('ws://44.204.54.69:9000');
 
         // Conexión a MongoD
-        const clientMongo = new MongoClient(uri);
+        // const clientMongo = new MongoClient(uri);
 
         client.on('connect', () => {
             console.log('Conectado al broker MQTT');
@@ -40,10 +40,12 @@ function Home() {
 
 
             // Guardar datos en MongoDB
+            /*
             storeData(topic, message).then(r =>
                 console.log('Datos guardados en MongoDB')
             ).catch(err =>
                 console.error('Error al guardar datos en MongoDB:', err));
+             */
 
             // Si recibo ambos datos, navego a la siguiente página
             if (weight && height) {
@@ -54,6 +56,7 @@ function Home() {
             }
         });
 
+        /*
         // Función que permite guardar en la db de mongo
         async function storeData(topic, message) {
             try {
@@ -69,6 +72,8 @@ function Home() {
                 await clientMongo.close();
             }
         }
+
+         */
 
         // Clean up the effect
         return () => { client.end(); };

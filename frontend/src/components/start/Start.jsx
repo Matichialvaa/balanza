@@ -20,7 +20,7 @@ function Start() {
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('ws://34.201.59.202:1883');
+        const client = mqtt.connect('mqtt://54.89.183.221:1883', options);
         console.log(client);
 
         client.on('connect', () => {

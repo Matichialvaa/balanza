@@ -21,14 +21,14 @@ function Start() {
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('mqtt://54.89.183.221:1883');
+        const client = mqtt.connect('ws://44.204.54.69:9000');
         console.log(client);
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
 
             // Publish a message to a topic
-            client.publish('start', 'Button clicked', {}, (error) => {
+            client.publish('start', 'clicked', {}, (error) => {
                 if (error) {
                     console.error('Publish error:', error);
                 }

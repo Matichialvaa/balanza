@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import mqtt from 'mqtt';
 import { useNavigate } from 'react-router-dom';
-import config from "../../config";
 import './Home.css';
+import config from "../../config";
 
 
 function Home() {
@@ -12,7 +12,7 @@ function Home() {
 
     useEffect(() => {
         // Conexión al broker MQTT
-        const client = mqtt.connect('ws://44.204.54.69:9000');
+        const client = mqtt.connect('ws://' + config.mongodb.hostname + ':' + config.mongodb.port);
 
         client.on('connect', () => {
             console.log('Conectado al broker MQTT');

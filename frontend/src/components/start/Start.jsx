@@ -2,6 +2,7 @@ import React from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
+import config from "../../config";
 
 function Start() {
     let navigate = useNavigate();
@@ -10,7 +11,7 @@ function Start() {
     const options = {
         connectTimeout: 4000, // Timeout period
         // Authentication (if needed)
-        //clientId: 'react_mqtt_client',
+        // clientId: 'react_mqtt_client',
         // If your MQTT broker requires authentication, uncomment these lines
         // username: 'your_username',
         // password: 'your_password',
@@ -20,7 +21,7 @@ function Start() {
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('ws://44.204.54.69:9000');
+        const client = mqtt.connect('ws://' + config.mqtt.hostname + ':' + config.mqtt.port);
         console.log(client);
 
         client.on('connect', () => {

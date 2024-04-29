@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
 
 function Start() {
     let navigate = useNavigate();
+    const [flightID, setFlightID] = useState('');
 
     // MQTT connection options
     const options = {
@@ -57,12 +58,16 @@ function Start() {
             if (weightReceived && heightReceived) {
                 console.log('Fetching information from the database');
                 let informationFetched = true;
+                //GET REQUEST TO BACKEND
+                let flightID = 'AA1234';
+                let flightWeight = '20';
+                let flightHeight = '30';
 
 
                 // If both data are received, navigate to the home page
                 if (weightReceived && heightReceived && informationFetched) {
                     console.log("Weight and height received, navigating to home page");
-                    navigate('/home', {state: {weight: weight, height: height}});
+                    navigate('/home', {state: {weight: weight, height: height, flightID: flightID, flightWeight: flightWeight, flightHeight: flightHeight}});
                     client.end();
                 }
             }});
@@ -76,6 +81,7 @@ function Start() {
     return (
         <div className="start">
             <h1>Welcome to the App</h1>
+            <input type="text" value={flightID} onChange={(e) => setFlightID(e.target.value)} placeholder="Enter flight ID" />
             <button onClick={publishMessage}>Start</button>
         </div>
     );

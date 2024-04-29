@@ -11,32 +11,34 @@ function Home() {
     let navigate = useNavigate();
 
     useEffect(() => {
-        // Conexión al broker MQTT
-        const client = mqtt.connect('ws://44.204.54.69:9000');
+        // Connection to the MQTT broker
+        const client = mqtt.connect('ws://52.23.242.25:9000');
 
         client.on('connect', () => {
-            console.log('Conectado al broker MQTT');
-            // Suscribirse a los topics 'weight' y 'height'
+            console.log('Connected to the MQTT broker');
+            // Subscribe to the topics 'weight' and 'height'
             client.subscribe(['weight', 'height']);
         });
 
-        client.on('connect', (topic, message) => {
-            console.log(`Mensaje recibido en topic ${JSON.stringify(topic)}: ${message}`);
+        client.on('message', (topic, message) => {
+            console.log(`Message received on topic ${topic}: ${message.toString()}`);
 
             switch (topic) {
                 case 'weight':
                     setWeight(message.toString());
+                    console.log(weight)
                     break;
                 case 'height':
                     setHeight(message.toString());
+                    console.log(height)
                     break;
                 default:
                     break;
             }
 
-            // Si recibo ambos datos, navego a la siguiente página
+            // If both data are received, navigate to the next page
             if (weight && height) {
-                // Chequeo en la base de datos weight && height en la aerolínea y vuelo indicado.
+                // Check in the database weight && height in the indicated airline and flight.
                 console.log("Weight: " + weight + " Height: " + height);
                 console.log("navigating to next page");
                 navigate('/newPage');
@@ -45,7 +47,7 @@ function Home() {
 
         // Clean up the effect
         return () => { client.end(); };
-    }, [weight, height]); // Corre de nuevo el useEffect si cambia weight o height
+    },); // Run the useEffect again if weight or height changes
 
     return (
         <div>

@@ -20,11 +20,17 @@ function Start() {
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('ws://44.204.54.69:9000');
+        const client = mqtt.connect('ws://52.23.242.25:9000');
         console.log(client);
+
+        let weightReceived = false;
+        let heightReceived = false;
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
+
+            // Subscribe to the topics 'weight' and 'height'
+            client.subscribe(['weight', 'height']);
 
             // Publish a message to a topic
             client.publish('start', 'clicked', {}, (error) => {
@@ -32,12 +38,23 @@ function Start() {
                     console.error('Publish error:', error);
                 }
             });
+        });
 
-            // After publishing the message, you can navigate to the home page
-            navigate('/home');
+        client.on('message', (topic, message) => {
+            console.log(`Message received on topic ${topic}: ${message.toString()}`);
 
-            // Optionally, end the connection when done
-            client.end();
+            if (topic === 'weight') {
+                weightReceived = true;
+            } else if (topic === 'height') {
+                heightReceived = true;
+            }
+
+            // If both data are received, navigate to the home page
+            if (weightReceived && heightReceived) {
+                console.log("Weight and height received, navigating to home page");
+                navigate('/home');
+                client.end();
+            }
         });
 
         client.on('error', (error) => {

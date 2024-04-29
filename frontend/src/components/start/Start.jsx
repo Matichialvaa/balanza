@@ -25,6 +25,8 @@ function Start() {
 
         let weightReceived = false;
         let heightReceived = false;
+        let weight = null;
+        let height = null;
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
@@ -45,17 +47,25 @@ function Start() {
 
             if (topic === 'weight') {
                 weightReceived = true;
+                weight = message.toString();
             } else if (topic === 'height') {
                 heightReceived = true;
+                height = message.toString()
             }
 
-            // If both data are received, navigate to the home page
+            // If both data are received, fetch the information from the database
             if (weightReceived && heightReceived) {
-                console.log("Weight and height received, navigating to home page");
-                navigate('/home');
-                client.end();
-            }
-        });
+                console.log('Fetching information from the database');
+                let informationFetched = true;
+
+
+                // If both data are received, navigate to the home page
+                if (weightReceived && heightReceived && informationFetched) {
+                    console.log("Weight and height received, navigating to home page");
+                    navigate('/home', {state: {weight: weight, height: height}});
+                    client.end();
+                }
+            }});
 
         client.on('error', (error) => {
             console.error('Connection error:', error);

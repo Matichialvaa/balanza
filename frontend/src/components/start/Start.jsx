@@ -2,6 +2,7 @@ import React from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
+import config from "../../config";
 
 function Start() {
     let navigate = useNavigate();
@@ -20,7 +21,7 @@ function Start() {
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('ws://52.23.242.25:9000');
+        const client = mqtt.connect('ws://' + config.mqtt.hostname + ':' + config.mqtt.port);
         console.log(client);
 
         let weightReceived = false;
@@ -70,6 +71,7 @@ function Start() {
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
+        navigate('/home');
     };
 
 

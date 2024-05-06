@@ -6,7 +6,7 @@ import config from "../../config";
 
 function Start() {
     let navigate = useNavigate();
-    const [flightID, setFlightID] = useState('');
+    const [passengerID, setPassengerID] = useState('');
 
     // MQTT connection options
     const options = {
@@ -77,7 +77,7 @@ function Start() {
                 // If both data are received, navigate to the home page
                 if (weightReceived && heightReceived && informationFetched) {
                     console.log("Weight and height received, navigating to home page");
-                    navigate('/home', {state: {weight: weight, height: height, flightID: flightID, flightWeight: flightWeight, flightHeight: flightHeight}});
+                    navigate('/home', {state: {weight: weight, height: height, flightID: flightID, flightWeight: flightWeight, flightHeight: flightHeight, passengerID: passengerID}});
                     client.end();
                 }
             }});
@@ -85,14 +85,15 @@ function Start() {
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
-        navigate('/home', {state: {weight: 120, height: 120, flightID: "idExample", flightWeight: 120, flightHeight: 120}});
+
+        navigate('/home', {state: {weight: '10', height: '10', flightID: '1', flightWeight: '20', flightHeight: '20', passengerID: 3}});
     };
 
 
     return (
         <div className="start">
             <h1>Welcome to the App</h1>
-            <input type="text" value={flightID} onChange={(e) => setFlightID(e.target.value)} placeholder="Enter flight ID" />
+            <input type="text" value={passengerID} onChange={(e) => setPassengerID(e.target.value)} placeholder="Enter passenger ID" />
             <button onClick={publishMessage}>Start</button>
         </div>
     );

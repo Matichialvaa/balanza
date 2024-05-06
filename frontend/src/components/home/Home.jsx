@@ -4,13 +4,14 @@ import './Home.css';
 
 function Home() {
     const location = useLocation();
-    const { weight, height, flightID, flightWeight, flightHeight } = location.state || {};
+    const { weight, height, flightID, flightWeight, flightHeight, passengerID } = location.state;
 
     //paso de string a int
     const numWeight = Number(weight);
     const numHeight = Number(height);
     const numFlightWeight = Number(flightWeight);
     const numFlightHeight = Number(flightHeight);
+    const numPassengerID = Number(passengerID);
 
 
     // State to store data fetched from the backend
@@ -26,6 +27,7 @@ function Home() {
                 },
                 body: JSON.stringify({ topic: 'measure', message: `Weight: ${weight}, Height: ${height}` }),
             });
+
             const responseData = await response.text();
             console.log(responseData);
         } catch (error) {
@@ -36,6 +38,7 @@ function Home() {
     return (
         <div className="home">
             <h1>Home Page</h1>
+            <p>PassengerID : {passengerID}</p>
             <p>Weight: {weight}</p>
             <p>Height: {height}</p>
             <p>{(numWeight < numFlightWeight && numHeight < numFlightHeight) ? "Correct" : "Not adequate weight and height"}</p>

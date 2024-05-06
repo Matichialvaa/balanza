@@ -4,7 +4,7 @@ import './Home.css';
 
 function Home() {
     const location = useLocation();
-    // const { weight, height } = location.state;
+    const { weight, height } = location.state;
 
     // State to store data fetched from the backend
     const [data, setData] = useState([]);

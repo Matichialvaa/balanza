@@ -4,7 +4,7 @@ import './Home.css';
 
 function Home() {
     const location = useLocation();
-    const { weight, height, flightID, flightWeight, flightHeight } = location.state;
+    const { weight, height, flightID, flightWeight, flightHeight } = location.state || {};
 
     //paso de string a int
     const numWeight = Number(weight);
@@ -15,22 +15,6 @@ function Home() {
 
     // State to store data fetched from the backend
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        // Fetch data from the backend when the component mounts
-        fetchData();
-    }, []);
-
-    // Function to fetch data from backend
-    const fetchData = async () => {
-        try {
-            const response = await fetch('http://localhost:27017/data'); // Change the port if different
-            const jsonData = await response.json();
-            setData(jsonData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
 
     // Function to send data to the backend
     const saveData = async () => {
@@ -44,7 +28,6 @@ function Home() {
             });
             const responseData = await response.text();
             console.log(responseData);
-            fetchData(); // Fetch all data again to update the list
         } catch (error) {
             console.error('Error saving data:', error);
         }
@@ -56,7 +39,6 @@ function Home() {
             <p>Weight: {weight}</p>
             <p>Height: {height}</p>
             <p>{(numWeight < numFlightWeight && numHeight < numFlightHeight) ? "Correct" : "Not adequate weight and height"}</p>
-
             <button onClick={saveData}>Save Data</button>
             <h2>Data fetched:</h2>
             <ul>

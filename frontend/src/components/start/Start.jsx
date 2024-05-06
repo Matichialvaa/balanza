@@ -60,6 +60,15 @@ function Start() {
                 console.log('Fetching information from the database');
                 let informationFetched = true;
                 //GET REQUEST TO BACKEND
+                const fetchData = async () => {
+                    try {
+                        const response = await fetch('http://localhost:27017/data:');
+                        const jsonData = await response.json();
+                        setData(jsonData);
+                    } catch (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                };
                 let flightID = 'AA1234';
                 let flightWeight = '20';
                 let flightHeight = '30';
@@ -76,7 +85,7 @@ function Start() {
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
-        navigate('/home');
+        navigate('/home', {state: {weight: 120, height: 120, flightID: "idExample", flightWeight: 120, flightHeight: 120}});
     };
 
 

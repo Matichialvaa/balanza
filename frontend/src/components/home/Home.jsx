@@ -6,12 +6,13 @@ function Home() {
     const location = useLocation();
     const { weight, height, flightID, flightWeight, flightHeight, passengerID } = location.state;
 
-    //paso de string a int
+    // Paso de string a int
     const numWeight = Number(weight);
     const numHeight = Number(height);
     const numFlightWeight = Number(flightWeight);
     const numFlightHeight = Number(flightHeight);
     const numPassengerID = Number(passengerID);
+    const numFlightID = Number(flightID);
 
     // Function to send data to the backend
     const saveData = async () => {
@@ -37,7 +38,8 @@ function Home() {
             <p>PassengerID : {passengerID}</p>
             <p>Weight: {weight}</p>
             <p>Height: {height}</p>
-            <p>{(numWeight < numFlightWeight && numHeight < numFlightHeight) ? "Correct" : "Not adequate weight and height"}</p>
+            <p>{(numWeight < numFlightWeight) ? "Correct weight" : "Not adequate weight"}</p>
+            <p>{(numHeight < numFlightHeight) ? "Correct height" : "Not adequate height"}</p>
             <button onClick={saveData}>Save Data</button>
         </div>
     );

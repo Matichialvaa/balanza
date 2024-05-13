@@ -4,20 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
 import config from "../../config";
 
+
 function Start() {
     let navigate = useNavigate();
     const [passengerID, setPassengerID] = useState('');
-    const [data, setData] = useState([]);
-
-    // MQTT connection options
-    const options = {
-        connectTimeout: 4000, // Timeout period
-        // Authentication (if needed)
-        //clientId: 'react_mqtt_client',
-        // If your MQTT broker requires authentication, uncomment these lines
-        // username: 'your_username',
-        // password: 'your_password',
-    };
+    const [data, setData] = useState({ flightID: '', flightWeight: '', flightHeight: '' });
+    const [informationFetched, setInfoFetched] = useState(false);
 
     useEffect(() => {
         if (passengerID !== '') {
@@ -28,7 +20,7 @@ function Start() {
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:27017/data:${passengerID}`);
+            const response = await fetch(`http://localhost:27017/data/${passengerID}`);
             const jsonData = await response.json();
             let { flight_id, max_weight, max_height } = jsonData;
 
@@ -37,6 +29,7 @@ function Start() {
                 flightWeight: max_weight,
                 flightHeight: max_height
             });
+            setInfoFetched(true);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -78,31 +71,20 @@ function Start() {
                 height = message.toString()
             }
 
-            // If both data are received, fetch the information from the database
-            if (weightReceived && heightReceived) {
-                console.log('Fetching information from the database');
-
-                // Datos hardcodeados
-                let informationFetched = true;
-                let flightID = 'AA1234';
-                let flightWeight = '20';
-                let flightHeight = '30';
-
-
-                // If both data are received, navigate to the home page
-                if (weightReceived && heightReceived && informationFetched) {
-                    console.log("Weight and height received, navigating to home page");
-                    navigate('/home', {state: {weight: weight, height: height, flightID: flightID, flightWeight: flightWeight, flightHeight: flightHeight, passengerID: passengerID}});
-                    client.end();
-                }
-            }});
+            // If both data are received, navigate to the home page
+            if (weightReceived && heightReceived && informationFetched) {
+                console.log("Weight and height received, navigating to home page");
+                navigate('/home', {state: {weight: weight, height: height, flightID: data.flightID, flightWeight: data.flightWeight, flightHeight: data.flightHeight, passengerID: passengerID}});
+                client.end();
+            }
+        });
 
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
-
-        navigate('/home', {state: {weight: '10', height: '10', flightID: '1', flightWeight: '20', flightHeight: '20', passengerID: 3}});
     };
+
+
 
 
     return (
@@ -114,5 +96,8 @@ function Start() {
     );
 }
 
+
 export default Start;
+
+
 

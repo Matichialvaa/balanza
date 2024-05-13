@@ -4,11 +4,36 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f0f0f0;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
 .start button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.anim_gradient {
+    background: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
+    background-size: 200% 200%;
+    animation: gradient 25s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
 }

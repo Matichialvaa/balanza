@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import './Home.css';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 function Home() {
     const location = useLocation();
@@ -32,15 +39,42 @@ function Home() {
         }
     };
 
+    const rows = [
+        { category: "Height", value: numHeight },
+        { category: "Weight", value: numWeight }
+    ];
+
     return (
-        <div className="home">
-            <h1>Home Page</h1>
-            <p>PassengerID : {passengerID}</p>
-            <p>Weight: {weight}</p>
-            <p>Height: {height}</p>
-            <p>{(numWeight < numFlightWeight) ? "Correct weight" : "Not adequate weight"}</p>
-            <p>{(numHeight < numFlightHeight) ? "Correct height" : "Not adequate height"}</p>
-            <button onClick={saveData}>Save Data</button>
+        <div className="container">
+            <div className='anim_gradient'>
+                <div className="home">
+                    <h1>Home Page</h1>
+                    <p>PassengerID : {passengerID}</p>
+                    <p>{(numWeight < numFlightWeight) ? "Correct weight" : "Not adequate weight"}</p>
+                    <p>{(numHeight < numFlightHeight) ? "Correct height" : "Not adequate height"}</p>
+                </div>
+                <TableContainer component={Paper}>
+                    <Table sx={{minWidth: 650}} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Category</TableCell>
+                                <TableCell align="right">Value</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row, index) => (
+                                <TableRow key={index}>
+                                    <TableCell component="th" scope="row">
+                                        {row.category}
+                                    </TableCell>
+                                    <TableCell align="right">{row.value}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <button onClick={saveData} className="">Save Data</button>
+            </div>
         </div>
     );
 }

@@ -1,11 +1,24 @@
 .home > * {
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
 }
 
 body {
-    background-color: #f4f4f4;
     font-family: Arial, sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 h1 {
@@ -15,12 +28,6 @@ h1 {
     font-size: 60px;
 }
 
-div {
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
 
 .card {
     width: 300px;
@@ -33,5 +40,35 @@ div {
 p {
     font-size: 18px;
     color: #333;
-    margin-bottom: 10px;
+}
+
+.anim_gradient {
+    background: linear-gradient(132deg, #F4D03F  0%, #16A085 100%);
+    background-size: 200% 200%;
+    animation : gradient 25s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.container button {
+    background-color: #16A085; /* Echo the gradient end color */
+    color: white;
+    border: none;
+    padding: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.container button:hover {
+    background-color: #F4D03F;
 }

@@ -3,19 +3,14 @@ import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
 import config from "../../config";
-
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 function Start() {
     let navigate = useNavigate();
     const [passengerID, setPassengerID] = useState('');
     const [data, setData] = useState({ flightID: '', flightWeight: '', flightHeight: '' });
     const [informationFetched, setInfoFetched] = useState(false);
-
-    useEffect(() => {
-        if (passengerID !== '') {
-            fetchData().then();
-        }
-    }, [passengerID]);
 
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
@@ -70,7 +65,7 @@ function Start() {
                 heightReceived = true;
                 height = message.toString()
             }
-
+            fetchData().then();
             // If both data are received, navigate to the home page
             if (weightReceived && heightReceived && informationFetched) {
                 console.log("Weight and height received, navigating to home page");
@@ -82,16 +77,28 @@ function Start() {
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
+        navigate('/home', {state: {weight: 10, height: 10, flightID: 10, flightWeight: 10, flightHeight: 10, passengerID: 10}});
     };
 
 
 
 
     return (
-        <div className="start">
-            <h1>Welcome to the App</h1>
-            <input type="text" value={passengerID} onChange={(e) => setPassengerID(e.target.value)} placeholder="Enter passenger ID" />
-            <button onClick={publishMessage}>Start</button>
+        <div className='anim_gradient'>
+            <div className="start">
+                <h1>Welcome to Balanza App</h1>
+                <Box className="textContainer">
+                    <TextField
+                               required
+                               id="standard-required"
+                               label="PassengerId"
+                               variant="standard"
+                               value={passengerID}
+                               onChange={(e) => setPassengerID(e.target.value)}
+                    />
+                </Box>
+                <button onClick={publishMessage}>Start</button>
+            </div>
         </div>
     );
 }

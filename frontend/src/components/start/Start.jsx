@@ -7,6 +7,7 @@ import config from "../../config";
 function Start() {
     let navigate = useNavigate();
     const [passengerID, setPassengerID] = useState('');
+    const [data, setData] = useState([]);
 
     // MQTT connection options
     const options = {
@@ -18,6 +19,28 @@ function Start() {
         // password: 'your_password',
     };
 
+    useEffect(() => {
+        if (passengerID !== '') {
+            fetchData().then();
+        }
+    }, [passengerID]);
+
+    // Function to fetch flights data from the backend by the passenger ID
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://localhost:27017/data:${passengerID}`);
+            const jsonData = await response.json();
+            let { flight_id, max_weight, max_height } = jsonData;
+
+            setData({
+                flightID: flight_id,
+                flightWeight: max_weight,
+                flightHeight: max_height
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     // Function to publish a message to the MQTT broker
     const publishMessage = () => {
@@ -29,9 +52,6 @@ function Start() {
         let heightReceived = false;
         let weight = null;
         let height = null;
-
-        // State to store data fetched from the backend
-        const [data, setData] = useState([]);
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
@@ -47,16 +67,6 @@ function Start() {
             });
         });
 
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`http://localhost:27017/data:${passengerID}`);
-                const jsonData = await response.json();
-                setData(jsonData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
         client.on('message', (topic, message) => {
             console.log(`Message received on topic ${topic}: ${message.toString()}`);
 
@@ -71,11 +81,9 @@ function Start() {
             // If both data are received, fetch the information from the database
             if (weightReceived && heightReceived) {
                 console.log('Fetching information from the database');
+
+                // Datos hardcodeados
                 let informationFetched = true;
-                //GET REQUEST TO BACKEND
-                useEffect(() => {
-                    fetchData()
-                }, []);
                 let flightID = 'AA1234';
                 let flightWeight = '20';
                 let flightHeight = '30';

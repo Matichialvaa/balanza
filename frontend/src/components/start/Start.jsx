@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
@@ -30,6 +30,9 @@ function Start() {
         let weight = null;
         let height = null;
 
+        // State to store data fetched from the backend
+        const [data, setData] = useState([]);
+
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
 
@@ -43,6 +46,16 @@ function Start() {
                 }
             });
         });
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:27017/data:${passengerID}`);
+                const jsonData = await response.json();
+                setData(jsonData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
         client.on('message', (topic, message) => {
             console.log(`Message received on topic ${topic}: ${message.toString()}`);
@@ -60,15 +73,9 @@ function Start() {
                 console.log('Fetching information from the database');
                 let informationFetched = true;
                 //GET REQUEST TO BACKEND
-                const fetchData = async () => {
-                    try {
-                        const response = await fetch('http://localhost:27017/data:');
-                        const jsonData = await response.json();
-                        setData(jsonData);
-                    } catch (error) {
-                        console.error('Error fetching data:', error);
-                    }
-                };
+                useEffect(() => {
+                    fetchData()
+                }, []);
                 let flightID = 'AA1234';
                 let flightWeight = '20';
                 let flightHeight = '30';

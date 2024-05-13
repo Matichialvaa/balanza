@@ -13,10 +13,6 @@ function Home() {
     const numFlightHeight = Number(flightHeight);
     const numPassengerID = Number(passengerID);
 
-
-    // State to store data fetched from the backend
-    const [data, setData] = useState([]);
-
     // Function to send data to the backend
     const saveData = async () => {
         try {
@@ -43,12 +39,6 @@ function Home() {
             <p>Height: {height}</p>
             <p>{(numWeight < numFlightWeight && numHeight < numFlightHeight) ? "Correct" : "Not adequate weight and height"}</p>
             <button onClick={saveData}>Save Data</button>
-            <h2>Data fetched:</h2>
-            <ul>
-                {data.map((item, index) => (
-                    <li key={index}>{item.message} - {item.fecha}</li>
-                ))}
-            </ul>
         </div>
     );
 }

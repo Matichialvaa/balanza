@@ -1,14 +1,40 @@
-.home > * {
+* {
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    margin: 0;
+    padding: 0;
+}
+
+.home {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
+    padding: 20px;
 }
+
 
 .container {
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 100vh;
     width: 100%;
+}
+
+.anim_gradient {
+    display: flex;
+    flex-direction: column;   /* Stack children vertically */
+    justify-content: center;  /* Center content vertically */
+    align-items: center;      /* Center content horizontally */
+    background: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
+    background-size: 200% 200%;
+    animation: gradient 25s ease infinite;
+    width: 100%;
+    height: 100vh;
+}
+
+.container > .anim_gradient {
+    height: 100vh;
 }
 
 body {
@@ -22,10 +48,12 @@ html, body {
 }
 
 h1 {
+    margin-top: 0;
     color: #333;
     text-align: center;
     font-weight: bold;
     font-size: 60px;
+    padding: 20px;
 }
 
 
@@ -40,12 +68,14 @@ h1 {
 p {
     font-size: 18px;
     color: #333;
+    padding: 5px;
 }
 
 .anim_gradient {
     background: linear-gradient(132deg, #F4D03F  0%, #16A085 100%);
     background-size: 200% 200%;
-    animation : gradient 25s ease infinite;
+    animation : gradient 15s ease infinite;
+    height: 100vh;
 }
 
 @keyframes gradient {
@@ -71,4 +101,25 @@ p {
 
 .container button:hover {
     background-color: #F4D03F;
+}
+
+.table-container {
+    width: 15%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .table-container {
+        width: 100%;
+        min-width: 100px;
+    }
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }

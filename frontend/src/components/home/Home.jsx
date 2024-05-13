@@ -46,34 +46,38 @@ function Home() {
 
     return (
         <div className="container">
-            <div className='anim_gradient'>
+            <div className="anim_gradient">
                 <div className="home">
                     <h1>Home Page</h1>
-                    <p>PassengerID : {passengerID}</p>
-                    <p>{(numWeight < numFlightWeight) ? "Correct weight" : "Not adequate weight"}</p>
-                    <p>{(numHeight < numFlightHeight) ? "Correct height" : "Not adequate height"}</p>
+                    <p>PassengerID: {passengerID}</p>
                 </div>
-                <TableContainer component={Paper}>
-                    <Table sx={{minWidth: 650}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Category</TableCell>
-                                <TableCell align="right">Value</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row, index) => (
-                                <TableRow key={index}>
-                                    <TableCell component="th" scope="row">
-                                        {row.category}
-                                    </TableCell>
-                                    <TableCell align="right">{row.value}</TableCell>
+                <div className="table-container">
+                    <TableContainer component={Paper}>
+                        <Table sx={{minWidth: 100}} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Category</TableCell>
+                                    <TableCell align="right">Value</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <button onClick={saveData} className="">Save Data</button>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell component="th" scope="row">
+                                            {row.category}
+                                        </TableCell>
+                                        <TableCell align="right">{row.value}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+                <p>{numWeight < numFlightWeight ? "Correct weight" : "Not adequate weight"}</p>
+                <p>{numHeight < numFlightHeight ? "Correct height" : "Not adequate height"}</p>
+                <div className="button-container">
+                    <button onClick={saveData}>Save Data</button>
+                </div>
             </div>
         </div>
     );

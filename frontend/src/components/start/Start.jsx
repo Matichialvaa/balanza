@@ -5,6 +5,8 @@ import mqtt from 'mqtt';
 import config from "../../config";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import logo from '../assets/AA2000.webp';
+import {Button} from "@mui/material";
 
 function Start() {
     let navigate = useNavigate();
@@ -16,6 +18,7 @@ function Start() {
     const fetchData = async () => {
         try {
             const response = await fetch(`http://localhost:27017/data/${passengerID}`);
+            console.log(response.data);
             const jsonData = await response.json();
             let { flight_id, max_weight, max_height } = jsonData;
 
@@ -86,18 +89,20 @@ function Start() {
     return (
         <div className='anim_gradient'>
             <div className="start">
-                <h1>Welcome to Balanza App</h1>
-                <Box className="textContainer">
+                <img src={logo}/>
+                <form onSubmit={publishMessage} className={"textContainer"}>
                     <TextField
-                               required
-                               id="standard-required"
-                               label="PassengerId"
-                               variant="standard"
-                               value={passengerID}
-                               onChange={(e) => setPassengerID(e.target.value)}
+                        id="standard-required"
+                        label="PassengerId"
+                        variant="standard"
+                        value={passengerID}
+                        onChange={(e) => setPassengerID(e.target.value)}
                     />
-                </Box>
-                <button onClick={publishMessage}>Start</button>
+                    <Button
+                        variant={"contained"}
+                        type={"submit"}
+                        disabled={passengerID != '' ? false : true}>Start</Button>
+                </form>
             </div>
         </div>
     );

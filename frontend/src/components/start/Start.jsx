@@ -11,30 +11,10 @@ import {Button} from "@mui/material";
 function Start() {
     let navigate = useNavigate();
     const [passengerID, setPassengerID] = useState('');
-    const [data, setData] = useState({ flightID: '', flightWeight: '', flightHeight: '' });
-    const [informationFetched, setInfoFetched] = useState(false);
-
-    // Function to fetch flights data from the backend by the passenger ID
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`http://localhost:27017/data/${passengerID}`);
-            console.log(response.data);
-            const jsonData = await response.json();
-            let { flight_id, max_weight, max_height } = jsonData;
-
-            setData({
-                flightID: flight_id,
-                flightWeight: max_weight,
-                flightHeight: max_height
-            });
-            setInfoFetched(true);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
 
     // Function to publish a message to the MQTT broker
-    const publishMessage = () => {
+    const publishMessage = (event) => {
+        event.preventDefault();
         console.log('intento conectar el cliente');
         const client = mqtt.connect('ws://' + config.mqtt.hostname + ':' + config.mqtt.port);
         console.log(client);
@@ -68,11 +48,11 @@ function Start() {
                 heightReceived = true;
                 height = message.toString()
             }
-            fetchData().then();
+            console.log(weightReceived, heightReceived);
             // If both data are received, navigate to the home page
-            if (weightReceived && heightReceived && informationFetched) {
+            if (weightReceived && heightReceived) {
                 console.log("Weight and height received, navigating to home page");
-                navigate('/home', {state: {weight: weight, height: height, flightID: data.flightID, flightWeight: data.flightWeight, flightHeight: data.flightHeight, passengerID: passengerID}});
+                navigate('/home', {state: {weight: weight, height: height, passengerID: passengerID}});
                 client.end();
             }
         });
@@ -80,7 +60,6 @@ function Start() {
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
-        navigate('/home', {state: {weight: 10, height: 10, flightID: 10, flightWeight: 10, flightHeight: 10, passengerID: 10}});
     };
 
 

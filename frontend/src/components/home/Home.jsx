@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import './Home.css';
 import Table from '@mui/material/Table';
@@ -14,7 +14,10 @@ import logo from '../assets/AA2000.webp';
 
 function Home() {
     const location = useLocation();
-    const { weight, height, flightID, flightWeight, flightHeight, passengerID } = location.state;
+    const { weight, height, passengerID } = location.state;
+    const [flightID, setFlightID] = useState('');
+    const [flightWeight, setFlightWeight] = useState('');
+    const [flightHeight, setFlightHeight] = useState('');
     let navigate = useNavigate();
 
     // Paso de string an int
@@ -22,6 +25,25 @@ function Home() {
     const numHeight = Number(height);
     const numFlightWeight = Number(flightWeight);
     const numFlightHeight = Number(flightHeight);
+
+    // Function to fetch flights data from the backend by the passenger ID
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://localhost:27017/data/${passengerID}`);
+            const jsonData = await response.json();
+
+            let { flight_id, max_weight, max_height } = jsonData;
+
+            setFlightID(flight_id);
+            setFlightWeight(max_weight);
+            setFlightHeight(max_height);
+
+            console.log(jsonData)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
 
     // Function to send data to the backend
     const saveData = async () => {
@@ -46,6 +68,10 @@ function Home() {
         { category: "Height", value: numHeight, maxLimit: numFlightHeight},
         { category: "Weight", value: numWeight, maxLimit: numFlightWeight },
     ];
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <div className="anim_gradient">

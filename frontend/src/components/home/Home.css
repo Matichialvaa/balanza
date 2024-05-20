@@ -104,7 +104,7 @@ p {
 }
 
 .table-container {
-    width: 15%;
+    width: 80%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -122,4 +122,20 @@ p {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+}
+
+.ids {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.passenger-id, .flight-id {
+    margin: 0 10px;
+}
+
+.passenger-id h4, .flight-id h4 {
+    margin:10px;
 }

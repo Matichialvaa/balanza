@@ -123,6 +123,9 @@ p {
     align-items: center;
     margin-top: 20px;
 }
+.bold-text {
+    font-weight: bold;
+}
 
 .ids {
     display: flex;

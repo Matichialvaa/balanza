@@ -88,13 +88,13 @@ function Home() {
                     </div>
                 </div>
                 <div className="table-container">
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} >
                         <Table sx={{minWidth: 100}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell className="bold-text"></TableCell>
-                                    <TableCell className="bold-text">Value</TableCell>
-                                    <TableCell className="bold-text">Max limit</TableCell>
+                                    <TableCell className="bold-text" align={"center"}>Value</TableCell>
+                                    <TableCell className="bold-text" align={"center"}>Max limit</TableCell>
                                     <TableCell className="bold-text">State</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -104,8 +104,17 @@ function Home() {
                                         <TableCell component="th" scope="row" className="bold-text">
                                             {row.category}
                                         </TableCell>
-                                        <TableCell align={"center"}>{row.value}</TableCell>
-                                        <TableCell align={"center"}>{row.maxLimit}</TableCell>
+                                        {row.category === "Height" ? (
+                                            <>
+                                                <TableCell align={"center"}>{row.value} cm</TableCell>
+                                                <TableCell align={"center"}>{row.maxLimit} cm</TableCell>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <TableCell align={"center"}>{row.value} g</TableCell>
+                                                <TableCell align={"center"}>{row.maxLimit} g</TableCell>
+                                            </>
+                                        )}
                                         <TableCell>
                                             <div style={{
                                                 backgroundColor: row.value <= row.maxLimit ? 'green' : 'red',
@@ -121,10 +130,9 @@ function Home() {
                         </Table>
                     </TableContainer>
                 </div>
-                <Button
-                    variant={"contained"}
-                    type={"submit"}
-                    onClick={saveData}>Save & Finish</Button>
+                <a className="bn31" href="/" onClick={saveData}>
+                    <span className="bn31span">Save & Finish</span>
+                </a>
             </div>
         </div>
     );

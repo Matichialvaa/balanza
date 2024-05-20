@@ -3,7 +3,6 @@ import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
 import config from "../../config";
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import logo from '../assets/AA2000.webp';
 import {Button} from "@mui/material";
@@ -11,10 +10,13 @@ import {Button} from "@mui/material";
 function Start() {
     let navigate = useNavigate();
     const [passengerID, setPassengerID] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Add this line
+    const [touched, setTouched] = useState(false);
 
     // Function to publish a message to the MQTT broker
     const publishMessage = (event) => {
         event.preventDefault();
+        setIsLoading(true)
         console.log('intento conectar el cliente');
         const client = mqtt.connect('ws://' + config.mqtt.hostname + ':' + config.mqtt.port);
         console.log(client);
@@ -51,6 +53,7 @@ function Start() {
             console.log(weightReceived, heightReceived);
             // If both data are received, navigate to the home page
             if (weightReceived && heightReceived) {
+                setIsLoading(false);
                 console.log("Weight and height received, navigating to home page");
                 navigate('/home', {state: {weight: weight, height: height, passengerID: passengerID}});
                 client.end();
@@ -62,27 +65,43 @@ function Start() {
         });
     };
 
-
-
+    const handleCustomButtonClick = (event) => {
+        event.preventDefault();
+        if (passengerID !== '') {
+            publishMessage(event);
+        }
+    };
 
     return (
         <div className='anim_gradient'>
-            <div className="start">
-                <img src={logo}/>
-                <form onSubmit={publishMessage} className={"textContainer"}>
-                    <TextField
-                        id="standard-required"
-                        label="PassengerId"
-                        variant="standard"
-                        value={passengerID}
-                        onChange={(e) => setPassengerID(e.target.value)}
-                    />
-                    <Button
-                        variant={"contained"}
-                        type={"submit"}
-                        disabled={passengerID != '' ? false : true}>Start</Button>
-                </form>
-            </div>
+            {isLoading ? (
+                <l-line-wobble
+                    size="80"
+                    stroke="5"
+                    bg-opacity="0.1"
+                    speed="1.75"
+                    color="white"
+                />
+            ) : (
+                <div className="start">
+                    <img src={logo}/>
+                    <form onSubmit={publishMessage} className={"textContainer"}>
+                        <TextField
+                            id="standard-required"
+                            label="PassengerId"
+                            variant="standard"
+                            value={passengerID}
+                            onChange={(e) => setPassengerID(e.target.value)}
+                            onBlur={() => setTouched(true)} // Add this line
+                            error={passengerID === '' && touched} // Modify this line
+                            helperText={passengerID === '' && touched ? 'This field is required' : ''} // Modify this line
+                        />
+                        <a className="bn31" href="/" onClick={(e) => handleCustomButtonClick(e)}>
+                            <span className="bn31span">Start</span>
+                        </a>
+                    </form>
+                </div>
+            )}
         </div>
     );
 }

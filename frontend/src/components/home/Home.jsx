@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import './Home.css';
 import Table from '@mui/material/Table';
@@ -13,13 +13,13 @@ function Home() {
     const location = useLocation();
     const { weight, height, flightID, flightWeight, flightHeight, passengerID } = location.state;
 
-    // Paso de string a int
+    // Paso de string an int
     const numWeight = Number(weight);
     const numHeight = Number(height);
     const numFlightWeight = Number(flightWeight);
     const numFlightHeight = Number(flightHeight);
-    const numPassengerID = Number(passengerID);
-    const numFlightID = Number(flightID);
+    // const numPassengerID = Number(passengerID);
+    // const numFlightID = Number(flightID);
 
     // Function to send data to the backend
     const saveData = async () => {

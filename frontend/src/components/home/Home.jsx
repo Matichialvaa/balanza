@@ -8,9 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TextField from "@mui/material/TextField";
-import {Button, Typography} from "@mui/material";
+import {Button} from "@mui/material";
 import logo from '../assets/AA2000.webp';
+import config from "../../config";
 
 function Home() {
     const location = useLocation();
@@ -29,7 +29,8 @@ function Home() {
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:27017/data/${passengerID}`);
+            const response = await fetch(
+                `http://localhost:` + config.app.port + `/data/${passengerID}`);
             const jsonData = await response.json();
 
             let { flight_id, max_weight, max_height } = jsonData;
@@ -48,7 +49,7 @@ function Home() {
     // Function to send data to the backend
     const saveData = async () => {
         try {
-            const response = await fetch('http://localhost:27017/save-data', {
+            const response = await fetch(`http://localhost:` + config.app.port + `/save-data`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

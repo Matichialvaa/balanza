@@ -40,8 +40,8 @@ function Home() {
     };
 
     const rows = [
-        { category: "Height", value: numHeight },
-        { category: "Weight", value: numWeight }
+        { category: "Height", value: numHeight, maxLimit: numFlightHeight},
+        { category: "Weight", value: numWeight, maxLimit: numFlightWeight },
     ];
 
     return (
@@ -56,25 +56,35 @@ function Home() {
                         <Table sx={{minWidth: 100}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Category</TableCell>
-                                    <TableCell align="right">Value</TableCell>
+                                    <TableCell className="bold-text"></TableCell>
+                                    <TableCell className="bold-text">Value</TableCell>
+                                    <TableCell className="bold-text">Max limit</TableCell>
+                                    <TableCell className="bold-text">State</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {rows.map((row, index) => (
                                     <TableRow key={index}>
-                                        <TableCell component="th" scope="row">
+                                        <TableCell component="th" scope="row" className="bold-text">
                                             {row.category}
                                         </TableCell>
-                                        <TableCell align="right">{row.value}</TableCell>
+                                        <TableCell align={"center"}>{row.value}</TableCell>
+                                        <TableCell align={"center"}>{row.maxLimit}</TableCell>
+                                        <TableCell>
+                                            <div style={{
+                                                backgroundColor: row.value < row.maxLimit ? 'green' : 'red',
+                                                width: '20px',
+                                                height: '20px',
+                                                marginLeft: '7px',
+                                                borderRadius: '18%'
+                                            }} />
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </div>
-                <p>{numWeight < numFlightWeight ? "Correct weight" : "Not adequate weight"}</p>
-                <p>{numHeight < numFlightHeight ? "Correct height" : "Not adequate height"}</p>
                 <div className="button-container">
                     <button onClick={saveData}>Save Data</button>
                 </div>

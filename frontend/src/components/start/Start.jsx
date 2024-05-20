@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
 import config from "../../config";
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import logo from '../assets/AA2000.webp';
 import {Button} from "@mui/material";
@@ -13,12 +12,20 @@ function Start() {
     const [passengerID, setPassengerID] = useState('');
     const [data, setData] = useState({ flightID: '', flightWeight: '', flightHeight: '' });
     const [informationFetched, setInfoFetched] = useState(false);
+    let weightReceived = false;
+    let heightReceived = false;
+    let weight = null;
+    let height = null;
+
+
+    useEffect(() => {
+        fetchData().then();
+    }, [height]);
 
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
         try {
             const response = await fetch(`http://localhost:27017/data/${passengerID}`);
-            console.log(response.data);
             const jsonData = await response.json();
             let { flight_id, max_weight, max_height } = jsonData;
 
@@ -34,15 +41,11 @@ function Start() {
     };
 
     // Function to publish a message to the MQTT broker
-    const publishMessage = () => {
+    const publishMessage = (event) => {
+        event.preventDefault();
         console.log('intento conectar el cliente');
         const client = mqtt.connect('ws://' + config.mqtt.hostname + ':' + config.mqtt.port);
         console.log(client);
-
-        let weightReceived = false;
-        let heightReceived = false;
-        let weight = null;
-        let height = null;
 
         client.on('connect', () => {
             console.log('Connected to MQTT Broker on EC2');
@@ -68,7 +71,7 @@ function Start() {
                 heightReceived = true;
                 height = message.toString()
             }
-            fetchData().then();
+
             // If both data are received, navigate to the home page
             if (weightReceived && heightReceived && informationFetched) {
                 console.log("Weight and height received, navigating to home page");
@@ -80,7 +83,7 @@ function Start() {
         client.on('error', (error) => {
             console.error('Connection error:', error);
         });
-        navigate('/home', {state: {weight: 10, height: 10, flightID: 10, flightWeight: 10, flightHeight: 10, passengerID: 10}});
+        // navigate('/home', {state: {weight: 10, height: 10, flightID: 10, flightWeight: 10, flightHeight: 10, passengerID: 10}});
     };
 
 
@@ -89,7 +92,7 @@ function Start() {
     return (
         <div className='anim_gradient'>
             <div className="start">
-                <img src={logo}/>
+                <img alt={"Logo"} src={logo}/>
                 <form onSubmit={publishMessage} className={"textContainer"}>
                     <TextField
                         id="standard-required"
@@ -101,7 +104,7 @@ function Start() {
                     <Button
                         variant={"contained"}
                         type={"submit"}
-                        disabled={passengerID != '' ? false : true}>Start</Button>
+                        disabled={passengerID === ''}>Start</Button>
                 </form>
             </div>
         </div>

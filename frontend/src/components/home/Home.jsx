@@ -8,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Button} from "@mui/material";
 import logo from '../assets/AA2000.webp';
 import config from "../../config";
 
@@ -30,7 +29,7 @@ function Home() {
     const fetchData = async () => {
         try {
             const response = await fetch(
-                `http://localhost:` + config.app.port + `/data/${passengerID}`);
+                config.app.url + `/data/${passengerID}`);
             const jsonData = await response.json();
 
             let { flight_id, max_weight, max_height } = jsonData;
@@ -49,7 +48,7 @@ function Home() {
     // Function to send data to the backend
     const saveData = async () => {
         try {
-            const response = await fetch(`http://localhost:` + config.app.port + `/save-data`, {
+            const response = await fetch(config.app.url + `/save-data`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

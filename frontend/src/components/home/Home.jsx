@@ -28,8 +28,7 @@ function Home() {
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
         try {
-            const response = await fetch(
-                config.app.url + `/data/${passengerID}`);
+            const response = await fetch(config.app.url +`/data/${passengerID}`);
             const jsonData = await response.json();
 
             let { flight_id, max_weight, max_height } = jsonData;
@@ -37,7 +36,7 @@ function Home() {
             setFlightID(flight_id);
             setFlightWeight(max_weight);
             setFlightHeight(max_height);
-
+            console.log("fetched data from db");
             console.log(jsonData)
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -70,6 +69,7 @@ function Home() {
     ];
 
     useEffect(() => {
+        console.log("hola");
         fetchData();
     }, []);
 

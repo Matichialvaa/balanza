@@ -4,7 +4,7 @@ config.debug = process.env.DEBUG || true;
 
 config.app = {};
 config.app.port = process.env.APP_PORT || 3333;
-config.app.url = process.env.APP_URL || 'http://localhost:3333';
+config.app.url = process.env.APP_URL || 'http://172.31.92.149:3333';
 
 config.mqtt  = {};
 config.mqtt.namespace = process.env.MQTT_NAMESPACE || '#';

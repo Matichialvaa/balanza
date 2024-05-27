@@ -10,7 +10,7 @@ import {Button} from "@mui/material";
 function Start() {
     let navigate = useNavigate();
     const [passengerID, setPassengerID] = useState('');
-    const [isLoading, setIsLoading] = useState(false); // Add this line
+    const [isLoading, setIsLoading] = useState(false);
     const [touched, setTouched] = useState(false);
 
     // Function to publish a message to the MQTT broker
@@ -18,7 +18,7 @@ function Start() {
         event.preventDefault();
         setIsLoading(true)
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('ws://' + config.mqtt.hostname + ':' + config.mqtt.port);
+        const client = mqtt.connect('ws://' + '127.0.0.1' + ':' + config.mqtt.port);
         console.log(client);
 
         let weightReceived = false;

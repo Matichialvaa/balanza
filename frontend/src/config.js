@@ -4,11 +4,12 @@ config.debug = process.env.DEBUG || true;
 
 config.app = {};
 config.app.port = process.env.APP_PORT || 3333;
-config.app.url = process.env.APP_URL || 'http://52.71.113.81:3333';
+config.app.url = process.env.APP_URL || 'http://127.0.0.1:3333';
 
 config.mqtt  = {};
 config.mqtt.namespace = process.env.MQTT_NAMESPACE || '#';
 config.mqtt.hostname  = process.env.MQTT_HOSTNAME  || '52.71.113.81';
+config.mqtt.privatename = process.env.MQTT_PRIVATE_NAME || '172.31.92.149';
 config.mqtt.port      = process.env.MQTT_PORT      || 9000;
 
 config.mongodb = {};

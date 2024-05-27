@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import './AddFlight.css';
 import config from "../../config";
+import Button from "@mui/material/Button";
 
 function AddFlight() {
     const [passengerID, setPassengerID] = useState('');
@@ -42,7 +43,7 @@ function AddFlight() {
     }, [submitSuccess, navigate]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={"form-add"} onSubmit={handleSubmit}>
             <TextField
                 label="Passenger ID"
                 value={passengerID}
@@ -63,7 +64,7 @@ function AddFlight() {
                 value={maxHeight}
                 onChange={(e) => setMaxHeight(e.target.value)}
             />
-            <button type="submit">Submit</button>
+            <Button type="submit">Submit</Button>
         </form>
     );
 }

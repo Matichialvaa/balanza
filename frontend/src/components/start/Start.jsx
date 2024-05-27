@@ -18,7 +18,7 @@ function Start() {
         event.preventDefault();
         setIsLoading(true)
         console.log('intento conectar el cliente');
-        const client = mqtt.connect('ws://' + '127.0.0.1' + ':' + config.mqtt.port);
+        const client = mqtt.connect('ws://' + '172.31.92.149:9000');
         console.log(client);
 
         let weightReceived = false;

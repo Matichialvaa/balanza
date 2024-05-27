@@ -21,7 +21,7 @@ function AddFlight() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ passenger_id: passengerID, flight_id: flightID, maxHeight: maxHeight, maxWeight: maxWeight }),
+                body: JSON.stringify({ passenger_id: passengerID, flight_id: flightID, max_height: maxHeight, max_weight: maxWeight }),
             });
 
             if (!response.ok) {

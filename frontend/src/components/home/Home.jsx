@@ -86,7 +86,7 @@ function Home() {
     ];
 
     useEffect(() => {
-        fetchData().then(sendLedSignal());
+        fetchData();
     }, []);
 
     return (

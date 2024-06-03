@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import logo from '../assets/AA2000.webp';
 import config from "../../config";
+import mqtt from "mqtt";
 
 function Home() {
     const location = useLocation();
@@ -18,7 +19,8 @@ function Home() {
     const [flightWeight, setFlightWeight] = useState('');
     const [flightHeight, setFlightHeight] = useState('');
     let navigate = useNavigate();
-
+    const client = mqtt.connect('ws://' + '52.71.113.81:9000');
+    console.log('Client: ' + client)
     // Paso de string an int
     const numWeight = Number(weight);
     const numHeight = Number(height);
@@ -50,18 +52,13 @@ function Home() {
 
     // Function to send a signal to the LED
     const sendLedSignal = async () => {
-        try {
-            const response = await fetch(config.app.url + `/led`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({color: num}),
-            });
-            console.log('LED signal sent successfully');
-        } catch (error) {
-            console.error('Error sending LED signal:', error);
-        }
+        client.publish('led', num, {}, (error) => {
+            if (error) {
+                console.error('Publish error:', error);
+            } else {
+                console.log('Signal sent to LED');
+            }
+        });
     }
 
     // Function to send data to the backend

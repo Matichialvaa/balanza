@@ -48,15 +48,15 @@ function Home() {
         }
     };
 
-    const num = numWeight <= numFlightWeight && numHeight <= numFlightHeight ? 'green' : 'red';
 
     // Function to send a signal to the LED
     const sendLedSignal = async () => {
+        const num = numWeight <= numFlightWeight && numHeight <= numFlightHeight ? 'green' : 'red';
         client.publish('led', num, {}, (error) => {
             if (error) {
                 console.error('Publish error:', error);
             } else {
-                console.log('Signal sent to LED:' + num);
+                console.log('Signal sent to LED: ' + num);
             }
         });
     }

@@ -28,7 +28,7 @@ function Home() {
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
         try {
-            const response = await fetch(config.app.url +`/data/${passengerID}`);
+            const response = await fetch(config.app.url + `/data/${passengerID}`);
             const jsonData = await response.json();
 
             let { flight_id, max_weight, max_height } = jsonData;
@@ -51,7 +51,7 @@ function Home() {
     // Function to send a signal to the LED
     const sendLedSignal = async () => {
         try {
-            const response = await fetch(config.app.url + '/led-signal', {
+            const response = await fetch(config.app.url + `/led-signal`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

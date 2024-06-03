@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './Start.css';
 import { useNavigate } from 'react-router-dom';
 import mqtt from 'mqtt';
-import config from "../../config";
 import TextField from '@mui/material/TextField';
 import logo from '../assets/AA2000.webp';
 

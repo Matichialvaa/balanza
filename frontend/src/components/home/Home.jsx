@@ -37,7 +37,7 @@ function Home() {
             setFlightWeight(max_weight);
             setFlightHeight(max_height);
 
-            await sendLedSignal();
+            sendLedSignal().then();
 
             console.log("fetched data from db");
             console.log(jsonData)

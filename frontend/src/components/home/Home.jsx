@@ -60,6 +60,8 @@ function Home() {
             });
             if (response.ok) {
                 console.log('LED signal sent successfully');
+            } else {
+                console.error('Error sending LED signal, response NOT OK:', response.statusText)
             }
         } catch (error) {
             console.error('Error sending LED signal:', error);

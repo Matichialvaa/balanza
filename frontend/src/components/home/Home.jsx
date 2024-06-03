@@ -51,10 +51,6 @@ function Home() {
 
     // Function to send a signal to the LED
     const sendLedSignal = async (maxWeight, maxHeight) => {
-        console.log("Weight" + numWeight.toString() + " " + maxWeight.toString());
-        console.log(numWeight <= maxWeight)
-        console.log("Height" + numHeight.toString() + " " + maxHeight.toString());
-        console.log(numHeight <= maxHeight)
         const num = numWeight <= maxWeight && numHeight <= maxHeight ? 'green' : 'red';
         client.publish('led', num, {}, (error) => {
             if (error) {

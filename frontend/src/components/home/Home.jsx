@@ -56,7 +56,7 @@ function Home() {
             if (error) {
                 console.error('Publish error:', error);
             } else {
-                console.log('Signal sent to LED');
+                console.log('Signal sent to LED:' + num);
             }
         });
     }

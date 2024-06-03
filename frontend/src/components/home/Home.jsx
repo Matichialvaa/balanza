@@ -27,7 +27,7 @@ function Home() {
     // Function to fetch flights data from the backend by the passenger ID
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:27017/data/${passengerID}`);
+            const response = await fetch(config.app.url +`/data/${passengerID}`);
             const jsonData = await response.json();
 
             let { flight_id, max_weight, max_height } = jsonData;
@@ -38,6 +38,7 @@ function Home() {
 
             await sendLedSignal();
 
+            console.log("fetched data from db");
             console.log(jsonData)
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -67,7 +68,7 @@ function Home() {
     // Function to send data to the backend
     const saveData = async () => {
         try {
-            const response = await fetch('http://localhost:27017/save-data', {
+            const response = await fetch(config.app.url + `/save-data`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

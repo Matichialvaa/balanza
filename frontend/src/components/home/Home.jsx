@@ -39,6 +39,8 @@ function Home() {
             setFlightWeight(max_weight);
             setFlightHeight(max_height);
 
+            await sendLedSignal(max_weight, max_height)
+
             console.log("fetched data from db");
             console.log(jsonData)
         } catch (error) {
@@ -48,12 +50,12 @@ function Home() {
 
 
     // Function to send a signal to the LED
-    const sendLedSignal = async () => {
-        console.log("Weight" + numWeight.toString() + " " + numFlightWeight.toString());
-        console.log(numWeight <= numFlightWeight)
-        console.log("Height" + numHeight.toString() + " " + numFlightHeight.toString());
-        console.log(numHeight <= numFlightHeight)
-        const num = numWeight <= numFlightWeight && numHeight <= numFlightHeight ? 'green' : 'red';
+    const sendLedSignal = async (maxWeight, maxHeight) => {
+        console.log("Weight" + numWeight.toString() + " " + maxWeight.toString());
+        console.log(numWeight <= maxWeight)
+        console.log("Height" + numHeight.toString() + " " + maxHeight.toString());
+        console.log(numHeight <= maxHeight)
+        const num = numWeight <= maxWeight && numHeight <= maxHeight ? 'green' : 'red';
         client.publish('led', num, {}, (error) => {
             if (error) {
                 console.error('Publish error:', error);

@@ -51,7 +51,7 @@ function Home() {
     // Function to send a signal to the LED
     const sendLedSignal = async () => {
         try {
-            const response = await fetch(config.app.url + `/led-signal`, {
+            const response = await fetch(config.app.url + `/led`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

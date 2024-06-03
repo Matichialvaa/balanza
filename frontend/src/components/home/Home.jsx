@@ -39,7 +39,7 @@ function Home() {
             setFlightWeight(max_weight);
             setFlightHeight(max_height);
 
-            sendLedSignal().then();
+            await sendLedSignal();
 
             console.log("fetched data from db");
             console.log(jsonData)
@@ -58,7 +58,7 @@ function Home() {
             if (error) {
                 console.error('Publish error:', error);
             } else {
-                console.log('Signal sent to LED: ' + num);
+                console.log('Signal sent to LEDD: ' + num);
             }
         });
     }

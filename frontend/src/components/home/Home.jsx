@@ -8,8 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TextField from "@mui/material/TextField";
-import {Button, Typography} from "@mui/material";
 import logo from '../assets/AA2000.webp';
 
 function Home() {
@@ -38,12 +36,33 @@ function Home() {
             setFlightWeight(max_weight);
             setFlightHeight(max_height);
 
+            await sendLedSignal();
+
             console.log(jsonData)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
+    const num = numWeight <= numFlightWeight && numHeight <= numFlightHeight ? 'green' : 'red';
+
+    // Function to send a signal to the LED
+    const sendLedSignal = async () => {
+        try {
+            const response = await fetch('http://localhost:27017/led-signal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({color: num}),
+            });
+            if (response.ok) {
+                console.log('LED signal sent successfully');
+            }
+        } catch (error) {
+            console.error('Error sending LED signal:', error);
+        }
+    }
 
     // Function to send data to the backend
     const saveData = async () => {
@@ -70,7 +89,7 @@ function Home() {
     ];
 
     useEffect(() => {
-        fetchData();
+        fetchData().then();
     }, []);
 
     return (

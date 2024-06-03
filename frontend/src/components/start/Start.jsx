@@ -5,7 +5,6 @@ import mqtt from 'mqtt';
 import config from "../../config";
 import TextField from '@mui/material/TextField';
 import logo from '../assets/AA2000.webp';
-import {Button} from "@mui/material";
 
 function Start() {
     let navigate = useNavigate();
@@ -92,9 +91,9 @@ function Start() {
                             variant="standard"
                             value={passengerID}
                             onChange={(e) => setPassengerID(e.target.value)}
-                            onBlur={() => setTouched(true)} // Add this line
-                            error={passengerID === '' && touched} // Modify this line
-                            helperText={passengerID === '' && touched ? 'This field is required' : ''} // Modify this line
+                            onBlur={() => setTouched(true)}
+                            error={passengerID === '' && touched}
+                            helperText={passengerID === '' && touched ? 'This field is required' : ''}
                         />
                         <a className="bn31" href="/" onClick={(e) => handleCustomButtonClick(e)}>
                             <span className="bn31span">Start</span>

@@ -39,8 +39,6 @@ function Home() {
             setFlightWeight(max_weight);
             setFlightHeight(max_height);
 
-            await sendLedSignal();
-
             console.log("fetched data from db");
             console.log(jsonData)
         } catch (error) {
@@ -90,7 +88,7 @@ function Home() {
     ];
 
     useEffect(() => {
-        fetchData().then();
+        fetchData().then(sendLedSignal());
     }, []);
 
     return (

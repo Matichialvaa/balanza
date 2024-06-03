@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import logo from '../assets/AA2000.webp';
+import config from "../../config";
 
 function Home() {
     const location = useLocation();

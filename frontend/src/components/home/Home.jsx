@@ -58,11 +58,7 @@ function Home() {
                 },
                 body: JSON.stringify({color: num}),
             });
-            if (response.ok) {
-                console.log('LED signal sent successfully');
-            } else {
-                console.error('Error sending LED signal, response NOT OK:', response.statusText)
-            }
+            console.log('LED signal sent successfully');
         } catch (error) {
             console.error('Error sending LED signal:', error);
         }
